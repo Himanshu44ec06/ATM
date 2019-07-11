@@ -1,6 +1,7 @@
-const machineStatus  = require('../enum/machineStatus'); 
-const  util = require('../util/utilFunctions');
-const   actions = require('../model/actions');
+const machineStatus  = require('../enum/machineStatus'),
+util = require('../util/utilFunctions'),
+actions = require('../model/actions'),
+screens =  require('../screen');
 
 var  machine = function(machineId) {
     let _machineId = machineId,
@@ -10,11 +11,11 @@ var  machine = function(machineId) {
     var  _logAction = function(action,message){
         const _parent = "MACHINE";
         new actions(_parent,action,message).log(_machineLogs);
-        console.log(_machineLogs);
     };
 
-    var  _initMachine = function() {
-        // Show First Screen here
+    var _loadScreen =  function(callback){
+        if(callback)
+          callback(screens.HOMEPAGE);
     }
 
     return {
@@ -25,16 +26,15 @@ var  machine = function(machineId) {
             this._currentStatus = machineStatus.OFFLINE; 
             _logAction("MACHINE SHUTDOWN", message);
         },
-        start :  () => { 
+        start :  (callback) => { 
             this._currentStatus =  machineStatus.ONLINE;
-            _initMachine();
+            _loadScreen(callback);
             _logAction("MACHINE START","MACHINE START");
         },
         restart: (message)  => {   
             this.shutDown(message); 
             this.start();
         }
-
     }
 
 }
