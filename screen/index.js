@@ -1,5 +1,5 @@
 const dir = __dirname;
 
 module.exports = {
-    'HOMEPAGE' :  dir + '/homepage.html'
+    'HOMEPAGE' :  dir + '/homepage/homepage.html'
 }
